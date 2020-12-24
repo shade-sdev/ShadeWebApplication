@@ -65,6 +65,7 @@ class FrameworkFunctions
 
         $query = $this->con->prepare("INSERT INTO `$table` ($dataFields) VALUES ($data)");
 
+
         foreach ($params as $field => $value) {
 
             $query->bindValue(':' . $field, $value, PDO::PARAM_STR);
