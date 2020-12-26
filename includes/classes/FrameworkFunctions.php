@@ -14,12 +14,44 @@ class FrameworkFunctions
 
 
     // Getting all rows from a table
-    public function getData($tablename)
+    public function getData($tablename, $pagecount)
     {
-        $query = $this->con->prepare("SELECT * FROM $tablename");
-        $query->execute();
-        $data = $query->fetchAll();
-        echo json_encode(['rows' => $data, 'response' => true]);
+        if ($pagecount == NULL) {
+            $query = $this->con->prepare("SELECT * FROM $tablename LIMIT 10 OFFSET 0");
+            $query->execute();
+            $data = $query->fetchAll();
+
+
+            $query2 = $this->con->prepare("SELECT COUNT(id) AS total FROM data");
+            $query2->execute();
+
+            $data2 = $query2->fetch(PDO::FETCH_ASSOC);
+            $count = $data2['total'];
+
+            echo json_encode(['rows' => $data, 'count' => $count, 'response' => true]);
+        } else {
+
+            if ($pagecount == 1) {
+                $start = 0;
+            } else 
+            if ($pagecount > 1) {
+                $start = ((($pagecount - 1) * 10));
+            }
+
+
+            $query = $this->con->prepare("SELECT * FROM $tablename LIMIT 10 OFFSET $start");
+            $query->execute();
+            $data = $query->fetchAll();
+
+
+            $query2 = $this->con->prepare("SELECT COUNT(id) AS total FROM data");
+            $query2->execute();
+
+            $data2 = $query2->fetch(PDO::FETCH_ASSOC);
+            $count = $data2['total'];
+
+            echo json_encode(['rows' => $data, 'count' => $count, 'response' => true]);
+        }
     }
 
     // Getting Specific row from a table

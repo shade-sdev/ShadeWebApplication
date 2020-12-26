@@ -5,7 +5,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/includes/classes/FrameworkFunctions.p
 // If ajax is posting data getData call function getData to return data from database to till the table
 if (isset($_POST['getData'])) {
     $FF = new FrameworkFunctions($con);
-    $result = $FF->getData('data'); // data --> target tablename
+    $pagecount = $_POST['getData'];
+    $result = $FF->getData('data', $pagecount); // data --> target tablename
     echo $result;
 }
 

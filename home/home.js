@@ -1,21 +1,23 @@
 
 // When document ready, call loadDataTable() function
 $(document).ready(function () {
-    loadDataTable();
+    loadDataTable(null);
 });
-
+$currentpage = null;
 // Function used to load data into the Table, adding a set of <tr><td></td></tr> into the <tbody for each row or any data.
-function loadDataTable() {
+function loadDataTable($count) {
     $.ajax({
         type: "POST",
         url: 'home/homeHandler.php',
         data: {
 
-            getData: ''
+            getData: $count
         },
         success: function (response) {
             var result = JSON.parse(response);
             var rows = result.rows;
+            var count = result.count;
+            console.log(count);
 
             for (var row of rows) {
                 const tr = document.createElement('tr');
@@ -39,9 +41,40 @@ function loadDataTable() {
                 document.getElementById('table').appendChild(tr);
             }
 
+            if ($count == null) {
+                if (count % 10 != 0) {
+                    var numpage = ((count / 10) + 1);
+                } else {
+                    var numpage = count / 10;
+                }
+
+
+
+
+
+                for (var i = 1; i <= numpage; i++) {
+                    const li = document.createElement('li');
+                    li.classList.add("footable-page", "visible");
+                    li.setAttribute('count', i);
+                    li.innerHTML = `<a class="footable-page-link pagenav" data-count="` + i + `" href="#">` + i + `</a>`;
+                    document.getElementById('paging').appendChild(li);
+                }
+            }
+
+
         }
     });
 }
+
+// Clearing form on form close
+
+$(document).on('click', '.pagenav', function (val) {
+    count = $(this).data('count');
+    $currentpage = count;
+    removeDataFromTable();
+    loadDataTable(count);
+
+});
 
 // Removing all child elements into the  <tbody> of the table
 function removeDataFromTable() {
@@ -125,7 +158,7 @@ $(document).on('click', '.addData', function (val) {
 
             var result = JSON.parse(response);
             removeDataFromTable();
-            loadDataTable();
+            loadDataTable($currentpage);
             clearform();
         }
     });
@@ -149,7 +182,7 @@ $(document).on('click', '.updateData', function (val) {
 
             var result = JSON.parse(response);
             removeDataFromTable();
-            loadDataTable();
+            loadDataTable($currentpage);
             clearform();
         }
     });
@@ -168,7 +201,7 @@ $(document).on('click', '.footable-delete', function (val) {
         success: function (response) {
             var result = JSON.parse(response);
             removeDataFromTable();
-            loadDataTable();
+            loadDataTable($currentpage);
             clearform();
 
         }
