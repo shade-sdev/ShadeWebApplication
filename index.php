@@ -122,17 +122,11 @@ require_once("includes/classes/FrameworkFunctions.php");
                                             <div class="body">
                                                 <ul>
                                                     <li><a href="#"><i class="zmdi zmdi-account"></i>Profile</a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-email-open"></i>Inbox</a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-wallpaper"></i>Activity</a></li>
+
                                                 </ul>
                                                 <ul>
                                                     <li><a href="#"><i class="zmdi zmdi-settings"></i>Setting</a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-lock-open"></i>Sing out</a></li>
-                                                </ul>
-                                                <ul>
-                                                    <li><a href="#"><i class="zmdi zmdi-paypal"></i>Payment</a></li>
-                                                    <li><a href="#"><i class="zmdi zmdi-google-pages"></i>Invoice</a>
-                                                    </li>
+                                                    <li><a href="#"><i class="zmdi zmdi-lock-open"></i>Sign out</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -212,6 +206,7 @@ require_once("includes/classes/FrameworkFunctions.php");
                                             <th>Firstname</th>
                                             <th>Lastname</th>
                                             <th>Age</th>
+                                            <th>Address</th>
                                             <th> </th>
                                         </tr>
                                     </thead>
@@ -223,15 +218,8 @@ require_once("includes/classes/FrameworkFunctions.php");
                                             <td colspan="6">
                                                 <div class="footable-pagination-wrapper">
                                                     <ul class="pagination" id="paging">
-                                                        <!-- <li class="footable-page-nav disabled" data-page="first"><a class="footable-page-link" href="#">«</a></li>
-                                                        <li class="footable-page-nav disabled" data-page="prev"><a class="footable-page-link" href="#">‹</a></li>
-                                                        <li class="footable-page visible active" data-page="1"><a class="footable-page-link" href="#">1</a></li>
-                                                        <li class="footable-page visible" data-page="2"><a class="footable-page-link" href="#">2</a></li>
-                                                        <li class="footable-page visible" data-page="3"><a class="footable-page-link" href="#">3</a></li>
-                                                        <li class="footable-page-nav" data-page="next"><a class="footable-page-link" href="#">›</a></li>
-                                                        <li class="footable-page-nav" data-page="last"><a class="footable-page-link" href="#">»</a></li> -->
+
                                                     </ul>
-                                                    <div class="divider"></div><span class="label label-default">1 of 3</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -271,6 +259,11 @@ require_once("includes/classes/FrameworkFunctions.php");
                                         <div class="form-group">
                                             <label for="age" class="col-form-label">Age:</label>
                                             <input type="text" class="form-control" id="age">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address" class="col-form-label">Address:</label>
+                                            <select class="form-control" id="address">
+                                            </select>
                                         </div>
                                     </form>
                                 </div>

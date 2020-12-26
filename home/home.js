@@ -2,8 +2,10 @@
 // When document ready, call loadDataTable() function
 $(document).ready(function () {
     loadDataTable(null);
+    getAddresses();
+
 });
-$currentpage = null;
+$currentpage = 1;
 // Function used to load data into the Table, adding a set of <tr><td></td></tr> into the <tbody for each row or any data.
 function loadDataTable($count) {
     $.ajax({
@@ -17,8 +19,6 @@ function loadDataTable($count) {
             var result = JSON.parse(response);
             var rows = result.rows;
             var count = result.count;
-            console.log(count);
-
             for (var row of rows) {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -26,6 +26,7 @@ function loadDataTable($count) {
                     <td>` + row.firstname + `</td>
                     <td>` + row.lastname + `</td>
                     <td>` + row.age + `</td>
+                    <td>` + row.address + `</td>
                     <td class="footable-editing footable-last-visible" style="display: table-cell;">
                     <div class="btn-group btn-group-xs" role="group">
                     <button type="button" class="btn btn-default footable-edit" name = "`+ row.id + `" style="color:#8b8d9b !important;" data-toggle="modal" data-target="#editForm">
@@ -66,7 +67,7 @@ function loadDataTable($count) {
     });
 }
 
-// Clearing form on form close
+// on page number click
 
 $(document).on('click', '.pagenav', function (val) {
     count = $(this).data('count');
@@ -75,6 +76,32 @@ $(document).on('click', '.pagenav', function (val) {
     loadDataTable(count);
 
 });
+
+function getAddresses() {
+    $.ajax({
+        type: "GET",
+        url: 'home/homeHandler.php',
+        data: {
+            getAddresses: null
+
+        },
+        success: function (response) {
+            var result = JSON.parse(response);
+            var rows = result.rows;
+            for (var row of rows) {
+                const option = document.createElement('option');
+                option.value = row.id;
+                option.text = row.name;
+
+                document.getElementById('address').appendChild(option);
+
+            }
+
+        }
+    });
+}
+
+
 
 // Removing all child elements into the  <tbody> of the table
 function removeDataFromTable() {
@@ -126,6 +153,7 @@ $(document).on('click', '.footable-edit', function (val) {
             $("#firstname").val(data[0]['firstname']);
             $("#lastname").val(data[0]['lastname']);
             $("#age").val(data[0]['age']);
+            $("#address").val(data[0]['address']);
 
         }
     });
@@ -151,7 +179,8 @@ $(document).on('click', '.addData', function (val) {
             addData: '',
             firstname: $("#firstname").val(),
             lastname: $("#lastname").val(),
-            age: $("#age").val()
+            age: $("#age").val(),
+            address: $("#address").val()
 
         },
         success: function (response) {
@@ -159,6 +188,7 @@ $(document).on('click', '.addData', function (val) {
             var result = JSON.parse(response);
             removeDataFromTable();
             loadDataTable($currentpage);
+            console.log($currentpage);
             clearform();
         }
     });
@@ -175,7 +205,8 @@ $(document).on('click', '.updateData', function (val) {
             dataid: $("#dataid").val(),
             firstname: $("#firstname").val(),
             lastname: $("#lastname").val(),
-            age: $("#age").val()
+            age: $("#age").val(),
+            address: $("#address").val()
 
         },
         success: function (response) {

@@ -10,6 +10,12 @@ if (isset($_POST['getData'])) {
     echo $result;
 }
 
+if (isset($_GET['getAddresses'])) {
+    $FF = new FrameworkFunctions($con);
+    $result = $FF->getDropdown('address'); // data --> target tablename
+    echo $result;
+}
+
 // If ajax is getting data getSingleData do the following
 if (isset($_GET['getSingleData'])) {
     $FF = new FrameworkFunctions($con);
@@ -34,7 +40,8 @@ if (isset($_GET['updateData'])) {
     $params = array(
         'firstname' => $_GET['firstname'],
         'lastname' => $_GET['lastname'],
-        'age' => $_GET['age']
+        'age' => $_GET['age'],
+        'address' => $_GET['address']
     );
 
     $additionalparams = array(
@@ -55,7 +62,8 @@ if (isset($_GET['addData'])) {
     $params = array(
         'firstname' => $_GET['firstname'],
         'lastname' => $_GET['lastname'],
-        'age' => $_GET['age']
+        'age' => $_GET['age'],
+        'address' => $_GET['address']
     );
 
     $result = $FF->addData('data', $params);
